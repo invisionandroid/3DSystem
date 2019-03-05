@@ -60,3 +60,4 @@ core/java/com/invision/invisionbtcontrol/IBTService.aidl \
 ```
 
 ###5.make framework 
+###编译framework 就可以看到效果
