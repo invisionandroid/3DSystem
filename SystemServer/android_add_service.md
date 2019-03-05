@@ -7,41 +7,40 @@
 >core/java/android/content/Context.java
 
 ```
-	public static final String INVISION_GESTURE_SERVICE = "invision_gesture_service";
+	public static final String INVISION_BT_CONTROL_SERVICE = "invision_btcontrol_service";
 ```
 
 ###2.系统开机启动服务
 >frameworks\base\services\java\com\android\server\SystemServer.java
 ```
-import com.invision.invisiongesture.InVisionGestureService;
+import com.invision.invisionbtcontrol.service.IvBtService;
 ...
 
 private void startOtherServices() {
 
-InVisionGestureService mGestureService = null;
+IvBtService mBtControlService = null;
 ...
 
-mGestureService = new InVisionGestureService(context);
-mGestureService.startService();
-ServiceManager.addService(Context.INVISION_GESTURE_SERVICE, mGestureService);
+mBtControlService = new IvBtService(context);
+ServiceManager.addService(Context.INVISION_BT_CONTROL_SERVICE, mBtControlService);
 
 
 }
 ```
-###3.新增service实现类
->frameworks\base\core\java\com\invision\IInVisionGestureService.aidl
+###3.新增aidl 以及 service实现类
+>frameworks\base\core\java\com\invision\invisionbtcontrol\IBTService.aidl
 ```
-package com.invision.invisiongesture;
-import com.invision.invisiongesture.IServiceBinder;
-interface IInVisionGestureService {
+package com.invision.invisionbtcontrol;
+
+interface IBTService {
     void startService();
     void stopService();
 }
 ```
->frameworks\base\core\java\com\invision\InVisionGestureService.java
+>\frameworks\base\core\java\com\invision\invisionbtcontrol\service\IvBtService.java
 
 ```
-public final class InVisionGestureService extends IInVisionGestureService.Stub{
+public final class IvBtService extends IBTService.Stub {
     @Override
     public void startService() {
 
@@ -55,9 +54,9 @@ public final class InVisionGestureService extends IInVisionGestureService.Stub{
 }    
 ```
 ###4.aidl添加到Android.mk里
->core/java/com/invision/invisiongesture/IInVisionGestureService.aidl \
+>frameworks\base\Android.mk
 ```
-core/java/com/invision/invisiongesture/IInVisionGestureService.aidl \
+core/java/com/invision/invisionbtcontrol/IBTService.aidl \
 ```
 
 ###5.make framework 
